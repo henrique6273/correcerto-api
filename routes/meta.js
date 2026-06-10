@@ -13,7 +13,8 @@ router.get('/', auth, async (req, res) => {
 
 router.put('/', auth, async (req, res) => {
   const { valor_diario } = req.body;
-  if (!valor_diario) return res.status(400).json({ erro: 'valor_diario obrigatório' });
+  // FIX #10: usa == null para não rejeitar o valor 0
+  if (valor_diario == null) return res.status(400).json({ erro: 'valor_diario obrigatório' });
   try {
     await pool.query(
       `INSERT INTO metas (user_email, valor_diario, atualizado_em)

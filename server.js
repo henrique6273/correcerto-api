@@ -2,6 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const { init } = require('./db');
 
+// FIX #9: valida JWT_SECRET antes de iniciar o servidor
+if (!process.env.JWT_SECRET) {
+  console.error('ERRO FATAL: variável JWT_SECRET não configurada. Defina ela nas variáveis de ambiente.');
+  process.exit(1);
+}
+
 const app = express();
 app.use(cors());
 app.use(express.json());

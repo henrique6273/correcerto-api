@@ -16,7 +16,8 @@ router.get('/', auth, async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   const { id, valor, categoria, data, descricao } = req.body;
-  if (!id || !valor || !categoria || !data) return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
+  // FIX #10: usa == null para não rejeitar valor 0
+  if (!id || valor == null || !categoria || !data) return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
   try {
     await pool.query(
       `INSERT INTO despesas (id, user_email, valor, categoria, data, descricao)
