@@ -28,12 +28,15 @@ async function init() {
       user_email TEXT NOT NULL REFERENCES usuarios(email) ON DELETE CASCADE,
       valor DOUBLE PRECISION NOT NULL,
       categoria TEXT NOT NULL,
+      plataforma TEXT NOT NULL DEFAULT 'Geral',
       data DATE NOT NULL,
       descricao TEXT DEFAULT '',
       criado_em BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
     );
+    ALTER TABLE despesas ADD COLUMN IF NOT EXISTS plataforma TEXT NOT NULL DEFAULT 'Geral';
     CREATE INDEX IF NOT EXISTS idx_despesas_email ON despesas(user_email);
     CREATE INDEX IF NOT EXISTS idx_despesas_data ON despesas(data);
+    CREATE INDEX IF NOT EXISTS idx_despesas_plataforma ON despesas(plataforma);
 
     CREATE TABLE IF NOT EXISTS metas (
       user_email TEXT PRIMARY KEY REFERENCES usuarios(email) ON DELETE CASCADE,
