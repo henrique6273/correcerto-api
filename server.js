@@ -17,6 +17,7 @@ app.use('/ganhos', require('./routes/ganhos'));
 app.use('/despesas', require('./routes/despesas'));
 app.use('/meta', require('./routes/meta'));
 app.use('/version', require('./routes/version'));
+app.use('/admin', require('./routes/admin'));
 
 const { pool } = require('./db');
 app.get('/download', async (req, res) => {
