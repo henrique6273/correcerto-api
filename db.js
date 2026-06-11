@@ -21,6 +21,7 @@ async function init() {
       criado_em BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
     );
     ALTER TABLE ganhos ADD COLUMN IF NOT EXISTS corridas INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS premium_expiracao BIGINT DEFAULT NULL;
     CREATE INDEX IF NOT EXISTS idx_ganhos_email ON ganhos(user_email);
     CREATE INDEX IF NOT EXISTS idx_ganhos_data ON ganhos(data);
 
