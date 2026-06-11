@@ -18,6 +18,21 @@ app.use('/despesas', require('./routes/despesas'));
 app.use('/meta', require('./routes/meta'));
 app.use('/version', require('./routes/version'));
 
+const { pool } = require('./db');
+app.get('/download', async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT apk_url FROM app_versions WHERE apk_url != '' ORDER BY version_code DESC LIMIT 1"
+    );
+    if (result.rows.length === 0 || !result.rows[0].apk_url) {
+      return res.status(404).send('Nenhum APK disponivel');
+    }
+    res.redirect(302, result.rows[0].apk_url);
+  } catch (e) {
+    res.status(500).send('Erro interno');
+  }
+});
+
 app.get('/health', (_, res) => res.json({ ok: true }));
 
 const PORT = process.env.PORT || 3000;
