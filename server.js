@@ -16,6 +16,7 @@ app.use('/auth', require('./routes/auth'));
 app.use('/ganhos', require('./routes/ganhos'));
 app.use('/despesas', require('./routes/despesas'));
 app.use('/meta', require('./routes/meta'));
+app.use('/version', require('./routes/version'));
 
 app.get('/health', (_, res) => res.json({ ok: true }));
 

@@ -43,6 +43,20 @@ async function init() {
       valor_diario DOUBLE PRECISION NOT NULL DEFAULT 200,
       atualizado_em BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
     );
+
+    CREATE TABLE IF NOT EXISTS app_versions (
+      id SERIAL PRIMARY KEY,
+      version_name TEXT NOT NULL,
+      version_code INTEGER NOT NULL,
+      apk_url TEXT NOT NULL DEFAULT '',
+      release_notes TEXT DEFAULT '',
+      force_update BOOLEAN DEFAULT FALSE,
+      created_at BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
+    );
+
+    INSERT INTO app_versions (version_name, version_code, apk_url, release_notes, force_update)
+    SELECT '1.0.0', 1, '', 'Versão inicial do Corre Certo.', false
+    WHERE NOT EXISTS (SELECT 1 FROM app_versions);
   `);
 }
 
