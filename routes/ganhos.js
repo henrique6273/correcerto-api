@@ -15,15 +15,15 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.post('/', auth, async (req, res) => {
-  const { id, valor, plataforma, data, descricao } = req.body;
+  const { id, valor, plataforma, data, descricao, corridas } = req.body;
   // FIX #10: usa == null para não rejeitar valor 0
   if (!id || valor == null || !plataforma || !data) return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
   try {
     await pool.query(
-      `INSERT INTO ganhos (id, user_email, valor, plataforma, data, descricao)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       ON CONFLICT (id) DO UPDATE SET valor=$3, plataforma=$4, data=$5, descricao=$6`,
-      [id, req.user.email, valor, plataforma, data, descricao || '']
+      `INSERT INTO ganhos (id, user_email, valor, plataforma, data, descricao, corridas)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (id) DO UPDATE SET valor=$3, plataforma=$4, data=$5, descricao=$6, corridas=$7`,
+      [id, req.user.email, valor, plataforma, data, descricao || '', corridas || 0]
     );
     res.status(201).json({ ok: true });
   } catch (e) {
